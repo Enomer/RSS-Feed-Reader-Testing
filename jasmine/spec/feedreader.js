@@ -97,7 +97,7 @@ $(function() {
     let sameContent; // define outside
     beforeEach(function(done){
       loadFeed(0, function() {// execute first loadFeed index id to retrieve initial content data
-        sameContent = document.getElementsByClassName('entry')[0].firstElementChild //retrieval and storing
+        sameContent = document.getElementsByClassName('entry')[0].firstElementChild; //retrieval and storing
         loadFeed(1, done); //now execute next index ID to flow in new content
       });
     });
