@@ -78,14 +78,13 @@ $(function() {
     * loadFeed() is asynchronous
     */
     beforeEach(function(done){
-      loadFeed(0, done) //wait for loadfeed to finish executing before checking content load-in
-
+      loadFeed(0, done); //wait for loadfeed to finish executing before checking content load-in
     });
     it('minimal entries in feed', function(){
       //  expect($('.feed > a')[0].className).toBe('entry-link'); Not as reliable, checks entire dom not feed container specifically.
       let entryContent = $('.feed .entry').length; //Check descendant of feed entries specifically
       console.log(entryContent);
-      expect(entryContent).toBeGreaterThan(0);;
+      expect(entryContent).toBeGreaterThan(0);
     });
 
   });
