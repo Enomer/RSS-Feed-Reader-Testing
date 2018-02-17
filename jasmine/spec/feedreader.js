@@ -44,9 +44,12 @@ $(function() {
     */
     it('Menu is Hidden', function() {
       //also could do Array.from(document.body.classList)[0].toBe('menu-hidden'); less efficient
-      expect(Array.from(document.body.classList).some(function(n){
+
+    /*  expect(Array.from(document.body.classList).some(function(n){
         return n === 'menu-hidden';
-      })).toBe(true);
+      })).toBe(true); */
+
+        expect(document.body.classList).toContain('menu-hidden');
     });
     /* This test ensures the menu changes
     * visibility when the menu icon is clicked; does the menu display when
@@ -75,20 +78,17 @@ $(function() {
     * loadFeed() is asynchronous
     */
     beforeEach(function(done){
-      loadFeed(0, function(){ //wait for loadfeed to finish executing before checking content load-in
-        done();
-      });
+      loadFeed(0, done) //wait for loadfeed to finish executing before checking content load-in
+
     });
-    it('minimal entries in feed', function(done){
-      //  expect($('.feed > a')[0].className).toBe('entry-link'); Not as reliable
-      expect(document.getElementsByClassName('entry').length).toBeGreaterThan(0);
-      done();
+    it('minimal entries in feed', function(){
+      //  expect($('.feed > a')[0].className).toBe('entry-link'); Not as reliable, checks entire dom not feed container specifically.
+      let entryContent = $('.feed .entry').length; //Check descendant of feed entries specifically
+      console.log(entryContent);
+      expect(entryContent).toBeGreaterThan(0);;
     });
 
   });
-
-
-
 
   describe('New Feed Selection', function() {
     /* This test ensures when a new feed is loaded
@@ -97,15 +97,16 @@ $(function() {
     let sameContent; // define outside
     beforeEach(function(done){
       loadFeed(0, function() {// execute first loadFeed index id to retrieve initial content data
-        sameContent = document.getElementsByClassName('entry')[0].firstElementChild; //retrieval and storing
+        sameContent = $('.feed').html(); //retrieval and storing
+        console.log(sameContent); //see previous content remain stored
         loadFeed(1, done); //now execute next index ID to flow in new content
       });
     });
 
-
-    it('content actually changes', function(done){ //compare the first content load with second to check if content actually did change
-      expect(document.getElementsByClassName('entry')[0].firstElementChild === sameContent).not.toBe(true);
-      done();
+    //compare the first content load with second to check if content actually did change
+    it('content actually changes', function(){
+      console.log($('.feed').html()); // see new content load in
+      expect($('.feed').html()).not.toEqual(sameContent);
     });
   });
 
